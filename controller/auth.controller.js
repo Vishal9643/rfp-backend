@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const { authSchema1 } = require("../helpers/validation_schema");
 const usersModel = require("../models/user.model");
+const jwt = require("jsonwebtoken");
 const createError = require("http-errors");
 const {
   signAdminAccessToken,
