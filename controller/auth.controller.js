@@ -184,6 +184,7 @@ module.exports = {
       const token = authHeader && authHeader.split(" ")[1]; // Extract the token from the Authorization header
       const decoded = jwt.verify(token, process.env.ADMIN_ACCESS_TOKEN_SECRET); // Decode the token
       const email = decoded.email; // Extract the email from the decoded token
+      console.log(email);
       const newPassword = await bcrypt.hash(formData.password, 10);
 
       const doesExist = await usersModel.findOneAndUpdate(
