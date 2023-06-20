@@ -1,7 +1,12 @@
 const express = require("express");
 const { token } = require("morgan");
 const router = express.Router();
-const { register, login, reset } = require("../controller/auth.controller");
+const {
+  register,
+  login,
+  reset,
+  forget,
+} = require("../controller/auth.controller");
 const formDataMiddleware = require("../middleware/multer");
 const {
   verifyAdminAccessToken,
@@ -24,8 +29,6 @@ const {
   vendorViewRFP,
 } = require("../controller/rfp.controller");
 const { applyRFP, viewQuotes } = require("../controller/quotes.controller");
-
-// const { otpSend } = require("../controller/otpmail.controller");
 
 router.post("/register", formDataMiddleware, register);
 
@@ -89,8 +92,6 @@ router.post(
 
 router.post("/reset", formDataMiddleware, reset);
 
-// router.post("/verify-otp", otpSend);
-
-// router.delete("/logout", logout);
+router.post("/forget", formDataMiddleware, forget);
 
 module.exports = router;
