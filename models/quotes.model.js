@@ -10,7 +10,6 @@ const quotesSchema = Schema({
   },
   name: {
     type: String,
-    required: true,
   },
   item_price: {
     type: String,

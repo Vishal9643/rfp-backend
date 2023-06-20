@@ -77,6 +77,7 @@ module.exports = {
       result.vendor_id = vendor_id;
       result.email = email;
       result.name = name;
+      result.id = id;
       //   result.last_name = last_name;
       result.mobile = mobile;
 
