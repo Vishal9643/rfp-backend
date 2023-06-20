@@ -1,7 +1,7 @@
 const express = require("express");
 const { token } = require("morgan");
 const router = express.Router();
-const { register, login } = require("../controller/auth.controller");
+const { register, login, reset } = require("../controller/auth.controller");
 const formDataMiddleware = require("../middleware/multer");
 const {
   verifyAdminAccessToken,
@@ -86,6 +86,8 @@ router.post(
   formDataMiddleware,
   applyRFP
 );
+
+router.post("/reset", formDataMiddleware, reset);
 
 // router.post("/verify-otp", otpSend);
 
