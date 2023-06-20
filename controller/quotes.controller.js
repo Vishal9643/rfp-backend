@@ -33,14 +33,15 @@ module.exports = {
   //       // next(error);
   //     }
   //   },
-  //   viewRFP: async (req, res, next) => {
-  //     try {
-  //       const rfp = await rfpModel.find();
-  //       res.send({ response: "success", rfps: rfp });
-  //     } catch (error) {
-  //       next(error);
-  //     }
-  //   },
+  viewQuotes: async (req, res, next) => {
+    const id = req.params.id;
+    try {
+      const rfp = await quotesModel.find({ id: id });
+      res.send({ response: "success", rfps: rfp });
+    } catch (error) {
+      next(error);
+    }
+  },
   //   closeRFP: async (req, res, next) => {
   //     const id = req.params.id;
   //     const doesExist = await rfpModel.findOneAndUpdate(

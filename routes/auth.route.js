@@ -22,7 +22,7 @@ const {
   closeRFP,
   vendorViewRFP,
 } = require("../controller/rfp.controller");
-const { applyRFP } = require("../controller/quotes.controller");
+const { applyRFP, viewQuotes } = require("../controller/quotes.controller");
 
 // const { otpSend } = require("../controller/otpmail.controller");
 
@@ -69,6 +69,8 @@ router.get("/viewrfp", verifyAdminAccessToken, viewRFP);
 router.get("/rfp/closerfp/:id", verifyAdminAccessToken, closeRFP);
 
 router.get("/rfp/getrfp/:id", verifyVendorAccessToken, vendorViewRFP);
+
+router.get("/rfp/getquotes/:id", verifyAdminAccessToken, viewQuotes);
 
 router.post(
   "/applyrfp/:id",
