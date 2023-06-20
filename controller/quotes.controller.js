@@ -35,6 +35,7 @@ module.exports = {
   //   },
   viewQuotes: async (req, res, next) => {
     const id = req.params.id;
+    console.log(id);
     try {
       const rfp = await quotesModel.find({ id: `${id}` });
       res.send({ response: "success", rfps: rfp });
