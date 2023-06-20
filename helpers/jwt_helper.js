@@ -3,9 +3,22 @@ const createError = require("http-errors");
 const { create } = require("../models/user.model");
 
 module.exports = {
-  signAdminAccessToken: (userid) => {
+  signAdminAccessToken: (
+    userid,
+    userId,
+    email,
+    firstName,
+    lastName,
+    mobile
+  ) => {
     return new Promise((resolve, reject) => {
-      const payload = {};
+      const payload = {
+        user_id: userId,
+        email: email,
+        first_name: firstName,
+        last_name: lastName,
+        mobile: mobile,
+      };
       const secret = process.env.ADMIN_ACCESS_TOKEN_SECRET;
       const option = {
         expiresIn: "30000s",

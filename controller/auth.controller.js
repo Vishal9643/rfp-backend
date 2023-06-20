@@ -80,7 +80,14 @@ module.exports = {
           doesExist.mobile
         );
       } else {
-        var accessToken = await signAdminAccessToken(doesExist.id);
+        var accessToken = await signAdminAccessToken(
+          doesExist.id,
+          doesExist.user_id,
+          doesExist.email,
+          doesExist.firstname,
+          doesExist.lastname,
+          doesExist.mobile
+        );
       }
 
       const emailMessage = {
