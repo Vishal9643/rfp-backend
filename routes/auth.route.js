@@ -15,6 +15,7 @@ const {
 const {
   vendorList,
   vendorApprove,
+  removeVendor,
 } = require("../controller/vendor.admin.controller");
 const {
   createRFP,
@@ -62,6 +63,13 @@ router.post(
   verifyAdminAccessToken,
   formDataMiddleware,
   createRFP
+);
+
+router.post(
+  "/createrfp",
+  verifyAdminAccessToken,
+  formDataMiddleware,
+  removeVendor
 );
 
 router.get("/viewrfp", verifyAdminAccessToken, viewRFP);

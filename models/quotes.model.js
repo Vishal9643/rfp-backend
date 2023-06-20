@@ -27,6 +27,9 @@ const quotesSchema = Schema({
     type: String,
     required: true,
   },
+  quantity: {
+    type: String,
+  },
   vendor_id: {
     type: String,
     required: true,

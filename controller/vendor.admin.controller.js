@@ -1,8 +1,28 @@
 const mongoose = require("mongoose");
 const usersModel = require("../models/user.model");
 const { authSchema4 } = require("../helpers/approvendor_validation");
+const { authSchema6 } = require("../helpers/removevendor_validaton");
 
 module.exports = {
+  removeVendor: async (req, res, next) => {
+    const formData = req.body;
+    console.log(formData.email);
+    try {
+      const result = await authSchema6.validateAsync(formData);
+
+      const removedUser = await usersModel.findOneAndDelete({
+        user_id: result.user_id,
+      });
+
+      if (removedUser) {
+        res.send({ response: "success" });
+      } else {
+        res.send({ response: "User not found" });
+      }
+    } catch (error) {
+      res.send({ error: error.message });
+    }
+  },
   vendorApprove: async (req, res, next) => {
     const formData = req.body;
     console.log(formData.email);
@@ -18,8 +38,6 @@ module.exports = {
       if (error) {
         res.send({ error: error.message });
       }
-      // throw createError.UnprocessableEntity();
-      // next(error);
     }
   },
   vendorList: async (req, res, next) => {
