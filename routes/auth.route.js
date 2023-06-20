@@ -66,7 +66,7 @@ router.post(
 );
 
 router.post(
-  "/createrfp",
+  "/removevendor",
   verifyAdminAccessToken,
   formDataMiddleware,
   removeVendor
