@@ -134,18 +134,15 @@ module.exports = {
       //   res.send({ response: "error", error: ["Approval Pending"] });
       // }
       // userId, email, firstName, lastName, mobile
-      if (doesExist.type == "vendor") {
-        var accessToken = await signVendorAccessToken(
-          doesExist.id,
-          doesExist.user_id,
-          doesExist.email,
-          doesExist.firstname,
-          doesExist.lastname,
-          doesExist.mobile
-        );
-      } else {
-        var accessToken = await signAdminAccessToken(doesExist.id);
-      }
+
+      var accessToken = await signAdminAccessToken(
+        doesExist.id,
+        doesExist.user_id,
+        doesExist.email,
+        doesExist.firstname,
+        doesExist.lastname,
+        doesExist.mobile
+      );
 
       const emailMessage = {
         to: doesExist.email,
