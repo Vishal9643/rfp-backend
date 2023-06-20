@@ -180,7 +180,7 @@ module.exports = {
       const newPassword = await bcrypt.hash(formData.password, 10);
 
       const doesExist = await usersModel.findOneAndUpdate(
-        { id: id },
+        { email: email },
         { password: newPassword }
       );
       if (!doesExist) {
