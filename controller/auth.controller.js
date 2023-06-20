@@ -175,12 +175,10 @@ module.exports = {
       console.log(authHeader);
       const token = authHeader && authHeader.split(" ")[1]; // Extract the token from the Authorization header
       const decoded = jwt.verify(token, process.env.ADMIN_ACCESS_TOKEN_SECRET); // Decode the token
-      console.log(decoded);
-
       const email = decoded.email; // Extract the email from the decoded token
       const newPassword = await bcrypt.hash(formData.password, 10);
 
-      const doesExist = await rfpModel.findOneAndUpdate(
+      const doesExist = await usersModel.findOneAndUpdate(
         { id: id },
         { password: newPassword }
       );
