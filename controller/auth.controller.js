@@ -36,8 +36,8 @@ module.exports = {
       const emailMessage = {
         to: savedUser.email,
         subject: "Registration Successful",
-        text: `Dear ${savedUser.name},\n\nThank you for registering on our platform. Your account has been successfully created.\n\nBest Regards,\nYour Company`,
-        html: `<p>Dear ${savedUser.name},</p>
+        text: `Dear ${savedUser.firstname} ${savedUser.last_name},\n\nThank you for registering on our platform. Your account has been successfully created.\n\nBest Regards,\nYour Company`,
+        html: `<p>Dear ${savedUser.firstname} ${savedUser.last_name},</p>
         <p>Thank you for registering on our platform. Your account has been successfully created.</p>
         <p>Best Regards,<br>Your Company</p>`,
       };
