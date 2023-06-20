@@ -43,7 +43,7 @@ module.exports = {
       };
 
       // Send registration email
-      await mailer.sendMail(emailMessage);
+      await mailer(emailMessage);
 
       res.send({ response: "success" });
     } catch (error) {

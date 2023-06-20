@@ -2,7 +2,7 @@ const express = require("express");
 
 const nodemailer = require("nodemailer");
 
-const mailer = async (otp) => {
+const mailer = async (info) => {
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
@@ -14,7 +14,7 @@ const mailer = async (otp) => {
   });
 
   // send mail with defined transport object
-  const info = await transporter.sendMail();
+  const info = await transporter.sendMail({ info });
 
   console.log("Message sent: %s", info.messageId);
   // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
