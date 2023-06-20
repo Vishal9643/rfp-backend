@@ -38,7 +38,7 @@ module.exports = {
     console.log(id);
     try {
       const rfp = await quotesModel.find({ id: `${id}` });
-      res.send({ response: "success", rfps: rfp });
+      res.send({ response: "success", quotes: rfp });
     } catch (error) {
       next(error);
     }
