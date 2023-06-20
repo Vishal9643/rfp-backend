@@ -10,7 +10,7 @@ const {
 const { create } = require("../models/user.model");
 const { authSchema2 } = require("../helpers/validation_schema_vendor");
 const { authSchema } = require("../helpers/validation_schema_login");
-// const mailer = require("../helpers/mail");
+const mailer = require("../helpers/mail");
 // const { otpSend } = require("./otpmail.controller");
 
 module.exports = {
@@ -33,6 +33,17 @@ module.exports = {
       const user = new usersModel(result);
       const savedUser = await user.save();
       const accessToken = await signAdminAccessToken(savedUser.id);
+      const emailMessage = {
+        to: savedUser.email,
+        subject: "Registration Successful",
+        text: `Dear ${savedUser.name},\n\nThank you for registering on our platform. Your account has been successfully created.\n\nBest Regards,\nYour Company`,
+        html: `<p>Dear ${savedUser.name},</p>
+        <p>Thank you for registering on our platform. Your account has been successfully created.</p>
+        <p>Best Regards,<br>Your Company</p>`,
+      };
+
+      // Send registration email
+      await mailer.sendMail(emailMessage);
 
       res.send({ response: "success" });
     } catch (error) {
