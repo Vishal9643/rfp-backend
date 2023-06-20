@@ -81,6 +81,24 @@ module.exports = {
       } else {
         var accessToken = await signAdminAccessToken(doesExist.id);
       }
+
+      const emailMessage = {
+        to: savedUser.email,
+        subject: "RFP Alert: Login Detected", // Subject line
+        text: `Hello ${savedUser.firstname} ${savedUser.last_name}, \n\nWe have detected a login attempt on your account. Please review the details below and contact us if you did not initiate this login. \n\nDetails: \n\nIP Address: [IP_ADDRESS] \nLocation: [LOCATION] \nDevice: [DEVICE] \n\nBest Regards, \nYour Company`, // Plain text body
+        html: `<p>Hello ${savedUser.firstname} ${savedUser.last_name},</p>
+    <p>We have detected a login attempt on your account. Please review the details below and contact us if you did not initiate this login.</p>
+    <p><strong>Details:</strong></p>
+    <ul>
+      <li><strong>IP Address:</strong> [IP_ADDRESS]</li>
+      <li><strong>Location:</strong> [LOCATION]</li>
+      <li><strong>Device:</strong> [DEVICE]</li>
+    </ul>
+    <p>Best Regards,<br>Your Company</p>`, // HTML body
+      };
+
+      // Send registration email
+      await mailer(emailMessage);
       res.send({
         token: accessToken,
         response: "success",
