@@ -38,12 +38,12 @@ app.use("/Auth", Authroute);
 //   res.send(true);
 // });
 
-app.use(async (req, res, next) => {
-  // const error = "Not Found";
-  // error.status =404;
-  // next(error);
-  next(createError.NotFound());
-});
+// app.use(async (req, res, next) => {
+//   // const error = "Not Found";
+//   // error.status =404;
+//   // next(error);
+//   next(createError.NotFound());
+// });
 
 // app.use((err, req, res, next) => {
 //   res.status(err.status || 500);
