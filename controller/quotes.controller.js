@@ -67,7 +67,9 @@ module.exports = {
       console.log(decoded);
       const vendor_id = decoded.user_id; // Extract the user_id from the decoded token
       const email = decoded.email; // Extract the email from the decoded token
-      const name = decoded.name;
+      const first_name = decoded.first_name;
+      const last_name = decoded.last_name;
+
       //   const last_name = decoded.last_name;
       const mobile = decoded.mobile;
 
@@ -76,7 +78,7 @@ module.exports = {
       console.log(vendor_id, email);
       result.vendor_id = vendor_id;
       result.email = email;
-      result.name = name;
+      result.name = `${first_name} ${last_name}`;
       result.id = id;
       //   result.last_name = last_name;
       result.mobile = mobile;
