@@ -7,7 +7,6 @@ const quotesSchema = Schema({
     type: String,
     required: true,
     lowercase: true,
-    unique: true,
   },
   name: {
     type: String,
