@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+// Define the quotes schema
 const quotesSchema = Schema({
   email: {
     type: String,
@@ -35,26 +36,6 @@ const quotesSchema = Schema({
     required: true,
   },
 });
-
-// categorySchema.pre("save", async function (next) {
-//   try {
-//     if (this.isNew) {
-//       // Only generate user_id for new documents
-//       const lastUser = await this.constructor.findOne(
-//         {},
-//         {},
-//         { sort: { id: -1 } }
-//       );
-//       if (lastUser) {
-//         this.id = lastUser.id + 1;
-//       }
-//     }
-
-//     next();
-//   } catch (error) {
-//     next(error);
-//   }
-// });
 
 const quotesModel = mongoose.model("quotes", quotesSchema);
 

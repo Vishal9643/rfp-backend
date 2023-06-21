@@ -3,35 +3,38 @@ const { authSchema3 } = require("../helpers/category_validation");
 const categoryModel = require("../models/category.model");
 
 module.exports = {
+  // Add a new category
   addCategory: async (req, res, next) => {
-    // res.send("Amit");
     const formData = req.body;
     try {
       result = await authSchema3.validateAsync(formData);
+
+      // Check if the category already exists
       const doesExist = await categoryModel.findOne({ name: result.name });
       if (doesExist) {
-        res.send({ response: "error", error: ["Category Already Exist"] });
+        res.send({ response: "error", error: ["Category Already Exists"] });
         return;
       }
 
+      // Create and save the new category
       const category = new categoryModel(result);
       const savedCategory = await category.save();
-      //   const accessToken = await signAccessToken(savedUser.id);
 
       res.send({ response: "success" });
     } catch (error) {
       if (error) {
         res.send({ error: error.message });
       }
-      // throw createError.UnprocessableEntity();
-      // next(error);
     }
   },
+
+  // Get all categories
   category: async (req, res, next) => {
     try {
       const categories = await categoryModel.find();
       const formattedData = {};
 
+      // Format the categories data
       categories.forEach((category) => {
         formattedData[category.id] = {
           name: category.name,
@@ -39,19 +42,22 @@ module.exports = {
         };
       });
 
-      console.log(formattedData);
       res.send({ response: "success", categories: formattedData });
     } catch (error) {
       next(error);
     }
   },
+
+  // Change category status
   changeCategoryStatus: async (req, res, next) => {
     const formData = req.body;
     try {
       result = await authSchema3.validateAsync(formData);
+
       const filter = { name: result.name }; // Query criteria to find the document
       const update = { status: result.status }; // New value for the status field
 
+      // Find and update the category
       const updatedDocument = await categoryModel.findOneAndUpdate(
         filter,
         update,
@@ -61,7 +67,7 @@ module.exports = {
       );
 
       if (!updatedDocument) {
-        res.send({ response: "error", error: ["Category Not Exist"] });
+        res.send({ response: "error", error: ["Category Does Not Exist"] });
         return;
       }
 

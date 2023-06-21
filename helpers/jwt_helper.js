@@ -3,6 +3,7 @@ const createError = require("http-errors");
 const { create } = require("../models/user.model");
 
 module.exports = {
+  // Function to sign the admin access token
   signAdminAccessToken: (
     userid,
     userId,
@@ -25,6 +26,7 @@ module.exports = {
         issuer: "test.test",
         audience: userid,
       };
+      // Sign the token using JWT.sign()
       JWT.sign(payload, secret, option, (err, token) => {
         if (err) {
           console.log(err);
@@ -34,6 +36,8 @@ module.exports = {
       });
     });
   },
+
+  // Middleware to verify the admin access token
   verifyAdminAccessToken: (req, res, next) => {
     if (!req.headers["authorization"]) {
       return res.status(401).send("Unauthorized");
@@ -43,6 +47,7 @@ module.exports = {
     const bearerToken = authHeader.split(" ");
     const token = bearerToken[1];
 
+    // Verify the token using JWT.verify()
     JWT.verify(token, process.env.ADMIN_ACCESS_TOKEN_SECRET, (err, payload) => {
       if (err) {
         const message =
@@ -54,6 +59,8 @@ module.exports = {
       next();
     });
   },
+
+  // Function to sign the vendor access token
   signVendorAccessToken: (
     userid,
     userId,
@@ -76,6 +83,7 @@ module.exports = {
         issuer: "test.test",
         audience: userid,
       };
+      // Sign the token using JWT.sign()
       JWT.sign(payload, secret, option, (err, token) => {
         if (err) {
           console.log(err);
@@ -85,6 +93,8 @@ module.exports = {
       });
     });
   },
+
+  // Middleware to verify the vendor access token
   verifyVendorAccessToken: (req, res, next) => {
     if (!req.headers["authorization"]) {
       return res.status(401).send("Unauthorized");
@@ -94,6 +104,7 @@ module.exports = {
     const bearerToken = authHeader.split(" ");
     const token = bearerToken[1];
 
+    // Verify the token using JWT.verify()
     JWT.verify(
       token,
       process.env.VENDOR_ACCESS_TOKEN_SECRET,

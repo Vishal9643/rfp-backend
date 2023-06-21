@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+// Define the category schema
 const categorySchema = Schema({
   name: {
     type: String,
@@ -18,17 +19,18 @@ const categorySchema = Schema({
   },
 });
 
+// Pre-save middleware to generate unique IDs for new documents
 categorySchema.pre("save", async function (next) {
   try {
     if (this.isNew) {
-      // Only generate user_id for new documents
-      const lastUser = await this.constructor.findOne(
+      // Only generate id for new documents
+      const lastCategory = await this.constructor.findOne(
         {},
         {},
         { sort: { id: -1 } }
       );
-      if (lastUser) {
-        this.id = lastUser.id + 1;
+      if (lastCategory) {
+        this.id = lastCategory.id + 1;
       }
     }
 
