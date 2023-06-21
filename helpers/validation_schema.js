@@ -7,8 +7,6 @@ const authSchema = joi.object({
   lastname: joi.string(),
   type: joi.string(),
   mobile: joi.string(),
-
-  // otp: joi.number(),
 });
 
 module.exports = {
