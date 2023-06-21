@@ -90,12 +90,15 @@ module.exports = {
 
       // Check if the user exists
       const doesExist = await usersModel.findOne({ email: result.email });
-      if (!doesExist)
-        throw next(createError.NotFound("User is not registered"));
+      if (!doesExist) {
+        res.send({ response: "error", error: ["User Not Registered"] });
+      }
 
       // Check if the password matches
       const isMatch = await bcrypt.compare(result.password, doesExist.password);
-      if (!isMatch) throw createError.BadRequest("Email/Password is incorrect");
+      if (!isMatch) {
+        res.send({ response: "error", error: ["Incorrect Password"] });
+      }
 
       // Handle pending approval for vendor accounts
       if (doesExist.status == "Pending" && doesExist.type == "vendor") {
