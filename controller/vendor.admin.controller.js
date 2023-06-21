@@ -41,7 +41,7 @@ module.exports = {
       );
       // Prepare the approve vendor email message
       const emailMessage = {
-        to: result.email,
+        to: formData.email,
         subject: "Vendor Approve",
         text: `Dear User Id ${result.user_id} ,\n\n Your RFP Vendor account is approved.\n\nThanks & Regards\nRFP Demo`,
         html: `<p>Dear User Id ${result.user_id},</p>
