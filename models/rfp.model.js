@@ -28,10 +28,10 @@ const rfpSchema = Schema({
     type: Date,
   },
   minimum_price: {
-    type: String,
+    type: Number,
   },
   maximum_price: {
-    type: String,
+    type: Number,
   },
   categories: {
     type: String,

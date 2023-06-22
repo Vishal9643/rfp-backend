@@ -3,6 +3,9 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const morgan = require("morgan");
 const Authroute = require("./routes/auth.route");
+const Adminroute = require("./routes/admin.route");
+const Vendorroute = require("./routes/vendor.route");
+
 const createError = require("http-errors");
 require("./helpers/init_mongodb");
 const userModel = require("./models/user.model");
@@ -17,7 +20,7 @@ app.use(cors()); // Enable CORS for cross-origin requests
 app.use(express.json()); // Parse JSON request bodies
 
 app.use(morgan("dev")); // Log HTTP requests to the console
-app.use("/Auth", Authroute); // Mount the authentication routes
+app.use("/Auth", Authroute, Adminroute, Vendorroute);
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);

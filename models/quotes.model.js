@@ -12,11 +12,11 @@ const quotesSchema = Schema({
     type: String,
   },
   item_price: {
-    type: String,
+    type: Number,
     required: true,
   },
   total_cost: {
-    type: String,
+    type: Number,
     required: true,
   },
   mobile: {
