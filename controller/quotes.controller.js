@@ -53,6 +53,15 @@ module.exports = {
         res.send({ response: "error", error: ["RFP is Closed"] });
         return;
       }
+      // Check if the RFP exists
+      const alreadyApplied = await quotesModel.findOne({
+        id: id,
+        vendor_id: vendor_id,
+      });
+      if (alreadyApplied) {
+        res.send({ response: "error", error: ["You have already applied"] });
+        return;
+      }
 
       // Create and save the quote
       const quotes = new quotesModel(result);
