@@ -132,16 +132,12 @@ module.exports = {
       const emailMessage = {
         to: doesExist.email,
         subject: "RFP Alert: Login Detected",
-        text: `Hello ${doesExist.firstname} ${doesExist.lastname}, \n\nWe have detected a login attempt on your account. Please review the details below and contact us if you did not initiate this login. \n\nDetails: \n\nIP Address: [IP_ADDRESS] \nLocation: [LOCATION] \nDevice: [DEVICE] \n\nBest Regards, \nYour Company`,
+        text: `Hello ${doesExist.firstname} ${doesExist.lastname}, \n\nWe have detected a login attempt on your account. Please review the details below and contact us if you did not initiate this login. \n\nBest Regards, \nRFP Demo`,
         html: `<p>Hello ${doesExist.firstname} ${doesExist.lastname},</p>
     <p>We have detected a login attempt on your account. Please review the details below and contact us if you did not initiate this login.</p>
     <p><strong>Details:</strong></p>
-    <ul>
-      <li><strong>IP Address:</strong> [IP_ADDRESS]</li>
-      <li><strong>Location:</strong> [LOCATION]</li>
-      <li><strong>Device:</strong> [DEVICE]</li>
-    </ul>
-    <p>Best Regards,<br>Your Company</p>`,
+   
+    <p>Best Regards,<br>RFP Demo</p>`,
       };
 
       // Send the login alert email
