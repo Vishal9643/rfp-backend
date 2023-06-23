@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const rfpModel = require("../models/rfp.model");
 const { authSchema5 } = require("../helpers/rfp_validation_schema");
 const jwt = require("jsonwebtoken");
+const usersModel = require("../models/user.model");
+const mailer = require("../helpers/mail");
 
 module.exports = {
   // Create a new RFP
@@ -26,6 +28,24 @@ module.exports = {
       // Create and save the new RFP
       const rfp = new rfpModel(result);
       const savedRfp = await rfp.save();
+
+      const vendorExist = await usersModel.findOne({ id: result.vendors });
+      if (vendorExist) {
+        var email = vendorExist.email;
+        const emailMessage = {
+          to: email,
+          subject: "RFP:: RFP Invtation",
+          text: `Dear ${vendorExist.firstname} ${vendorExist.lastname},\n\nInvitation for RFP.\n\nBest Regards,\nRFP Demo`,
+          html: `<p>Dear ${savedUser.firstname} ${savedUser.lastname},</p>
+          <p>Invitation for RFP</p>
+          <p>Best Regards,<br>RFP Demo</p>
+          
+          `,
+        };
+
+        // Send the registration email
+        await mailer(emailMessage);
+      }
 
       res.send({ response: "success", admin_id: admin_id });
     } catch (error) {
