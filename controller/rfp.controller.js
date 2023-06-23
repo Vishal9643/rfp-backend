@@ -14,6 +14,7 @@ module.exports = {
       const token = authHeader && authHeader.split(" ")[1]; // Extract the token from the Authorization header
       const decoded = jwt.verify(token, process.env.ADMIN_ACCESS_TOKEN_SECRET); // Decode the token
       const admin_id = decoded.user_id; // Extract the user_id from the decoded token
+      console.log(admin_id);
 
       // Check if the RFP already exists
       const doesExist = await rfpModel.findOne({ rfp_no: result.rfp_no });
