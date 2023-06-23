@@ -16,7 +16,7 @@ module.exports = {
       const token = authHeader && authHeader.split(" ")[1]; // Extract the token from the Authorization header
       const decoded = jwt.verify(token, process.env.ADMIN_ACCESS_TOKEN_SECRET); // Decode the token
       const admin_id = decoded.user_id; // Extract the user_id from the decoded token
-      console.log(admin_id);
+      console.log(result.vendors);
 
       // Check if the RFP already exists
       const doesExist = await rfpModel.findOne({ rfp_no: result.rfp_no });
@@ -29,17 +29,63 @@ module.exports = {
       const rfp = new rfpModel(result);
       const savedRfp = await rfp.save();
 
-      const vendorExist = await usersModel.findOne({ id: result.vendors });
+      const vendorExist = await usersModel.findOne({ user_id: result.vendors });
+      console.log(vendorExist);
       if (vendorExist) {
         var email = vendorExist.email;
         const emailMessage = {
           to: email,
           subject: "RFP:: RFP Invtation",
           text: `Dear ${vendorExist.firstname} ${vendorExist.lastname},\n\nInvitation for RFP.\n\nBest Regards,\nRFP Demo`,
-          html: `<p>Dear ${savedUser.firstname} ${savedUser.lastname},</p>
-          <p>Invitation for RFP</p>
-          <p>Best Regards,<br>RFP Demo</p>
-          
+          html: `<html>
+          <head>
+              <title>RFP Invitation</title>
+              <style>
+                  table {
+                      border-collapse: collapse;
+                      width: 100%;
+                  }
+                  
+                  th, td {
+                      padding: 8px;
+                      text-align: left;
+                      border-bottom: 1px solid #ddd;
+                  }
+              </style>
+          </head>
+          <body>
+              <h1>RFP Invitation</h1>
+              <div style="display: flex; align-items: center; justify-content: center;">
+              <table style="width: 80%; border: 1px solid black; border-radius: 20px;">
+                  <tr>
+                      <th>Product Name</th>
+                      <td>${result.item_name}r</td>
+                  </tr>
+                  <tr>
+                      <th>Product Description</th>
+                      <td>${result.item_description}</td>
+                  </tr>
+                  <tr>
+                      <th>Quantity</th>
+                      <td>${result.quantity}</td>
+                  </tr>
+                  <tr>
+                      <th>Minimum Price</th>
+                      <td>${result.minimum_price}</td>
+                  </tr>
+                  <tr>
+                      <th>Maximum Price</th>
+                      <td>${result.maximum_price}</td>
+                  </tr>
+                  <tr>
+                      <th>Last Date</th>
+                      <td>${result.last_date}</td>
+                  </tr>
+              </table>
+              </div>
+              <p>RFP system</p>
+          </body>
+          </html>
           `,
         };
 
