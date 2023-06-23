@@ -27,7 +27,7 @@ module.exports = {
       const rfp = new rfpModel(result);
       const savedRfp = await rfp.save();
 
-      res.send({ response: "success" });
+      res.send({ response: "success", admin_id: admin_id });
     } catch (error) {
       if (error) {
         res.send({ error: error.message });
