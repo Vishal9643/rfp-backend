@@ -34,6 +34,10 @@ const quotesSchema = Schema({
     type: String,
     required: true,
   },
+  org_name: {
+    type: String,
+    required: true,
+  },
 });
 
 const quotesModel = mongoose.model("quotes", quotesSchema);

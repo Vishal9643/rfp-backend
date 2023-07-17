@@ -8,6 +8,8 @@ const {
   login,
   reset,
   forget,
+  tenants,
+  createtenants,
 } = require("../controller/auth.controller");
 
 // Importing middleware for handling form data
@@ -32,5 +34,11 @@ router.post("/reset", formDataMiddleware, reset);
 
 // Forget password
 router.post("/forget", formDataMiddleware, forget);
+
+// Get tenants (public access)
+router.get("/tenants", tenants);
+
+// Create tenants (public access)
+router.post("/tenants",  formDataMiddleware, createtenants);
 
 module.exports = router;

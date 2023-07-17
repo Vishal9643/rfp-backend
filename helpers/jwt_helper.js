@@ -10,8 +10,11 @@ module.exports = {
     email,
     firstName,
     lastName,
-    mobile
+    mobile,
+    org_id,
+    role
   ) => {
+    console.log(role)
     return new Promise((resolve, reject) => {
       const payload = {
         user_id: userId,
@@ -19,6 +22,8 @@ module.exports = {
         first_name: firstName,
         last_name: lastName,
         mobile: mobile,
+        org_id,
+        role
       };
       const secret = process.env.ADMIN_ACCESS_TOKEN_SECRET;
       const option = {
@@ -67,7 +72,9 @@ module.exports = {
     email,
     firstName,
     lastName,
-    mobile
+    mobile,
+    org_id,
+    role
   ) => {
     return new Promise((resolve, reject) => {
       const payload = {
@@ -76,6 +83,8 @@ module.exports = {
         first_name: firstName,
         last_name: lastName,
         mobile: mobile,
+        org_id,
+        role
       };
       const secret = process.env.VENDOR_ACCESS_TOKEN_SECRET;
       const option = {

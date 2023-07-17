@@ -2,18 +2,12 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // Define the category schema
-const categorySchema = Schema({
-  name: {
-    type: String,
-    required: true,
-    lowercase: true,
-    unique: true,
-  },
+const tenantSchema = Schema({
   status: {
     type: String,
     default: "active",
   },
-  org_id: {
+  org_name: {
     type: String,
     required: true,
   },
@@ -24,17 +18,17 @@ const categorySchema = Schema({
 });
 
 // Pre-save middleware to generate unique IDs for new documents
-categorySchema.pre("save", async function (next) {
+tenantSchema.pre("save", async function (next) {
   try {
     if (this.isNew) {
       // Only generate id for new documents
-      const lastCategory = await this.constructor.findOne(
+      const lastTenant = await this.constructor.findOne(
         {},
         {},
         { sort: { id: -1 } }
       );
-      if (lastCategory) {
-        this.id = lastCategory.id + 1;
+      if (lastTenant) {
+        this.id = lastTenant.id + 1;
       }
     }
 
@@ -44,6 +38,7 @@ categorySchema.pre("save", async function (next) {
   }
 });
 
-const categoryModel = mongoose.model("category", categorySchema);
+const tenantModel = mongoose.model("tenant", tenantSchema);
 
-module.exports = categoryModel;
+module.exports = tenantModel;
+

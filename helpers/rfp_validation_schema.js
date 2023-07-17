@@ -10,6 +10,7 @@ const authSchema = joi
     minimum_price: joi.string().required(),
     maximum_price: joi.string().required(),
     categories: joi.string().required(),
+    org_name: joi.string(),
     vendors: joi.string().required(),
   })
   .unknown();

@@ -12,6 +12,9 @@ const { create } = require("../models/user.model");
 const { authSchema2 } = require("../helpers/validation_schema_vendor");
 const { authSchema } = require("../helpers/validation_schema_login");
 const mailer = require("../helpers/mail");
+const { authSchema4 } = require("../helpers/category_validation");
+const tenantModel = require("../models/tenants.model");
+const { authSchema9 } = require("../helpers/tenants_validations");
 
 module.exports = {
   // Register a new user
@@ -47,7 +50,8 @@ module.exports = {
           savedUser.email,
           savedUser.firstname,
           savedUser.lastname,
-          savedUser.mobile
+          savedUser.mobile,
+          savedUser.org_name
         );
       } else {
         accessToken = await signAdminAccessToken(
@@ -56,7 +60,8 @@ module.exports = {
           savedUser.email,
           savedUser.firstname,
           savedUser.lastname,
-          savedUser.mobile
+          savedUser.mobile,
+          savedUser.org_id
         );
       }
 
@@ -115,7 +120,9 @@ module.exports = {
           doesExist.email,
           doesExist.firstname,
           doesExist.lastname,
-          doesExist.mobile
+          doesExist.mobile,
+          doesExist.org_id,
+          doesExist.role
         );
       } else {
         accessToken = await signAdminAccessToken(
@@ -124,7 +131,9 @@ module.exports = {
           doesExist.email,
           doesExist.firstname,
           doesExist.lastname,
-          doesExist.mobile
+          doesExist.mobile,
+          doesExist.org_id,
+          doesExist.role
         );
       }
 
@@ -150,6 +159,7 @@ module.exports = {
         type: doesExist.type,
         name: `${doesExist.firstname} ${doesExist.lastname}`,
         email: doesExist.email,
+        org_name: doesExist.org_name,
       });
     } catch (error) {
       next(error);
@@ -171,7 +181,8 @@ module.exports = {
         doesExist.email,
         doesExist.firstname,
         doesExist.lastname,
-        doesExist.mobile
+        doesExist.mobile,
+        doesExist.org_id
       );
 
       // Prepare the reset password email message
@@ -196,6 +207,7 @@ module.exports = {
         type: doesExist.type,
         name: `${doesExist.firstname} ${doesExist.lastname}`,
         email: doesExist.email,
+        org_id: doesExist.org_id,
       });
     } catch (error) {
       next(error);
@@ -223,6 +235,50 @@ module.exports = {
         res.send({ response: "error", error: ["User does not exist"] });
         return;
       }
+      res.send({ response: "success" });
+    } catch (error) {
+      if (error) {
+        res.send({ error: error.message });
+      }
+    }
+  },
+  tenants: async (req, res, next) => {
+    try {
+      const tenant = await tenantModel.find();
+      const formattedData = {};
+
+      // Format the tenant data
+      tenant.forEach((tenants) => {
+        formattedData[tenants.id] = {
+          id: tenants.id,
+          org_name: tenants.org_name,
+          status: tenants.status,
+        };
+      });
+
+      res.send({ response: "success", tenant: formattedData });
+    } catch (error) {
+      next(error);
+    }
+  },
+  createtenants: async (req, res, next) => {
+    const formData = req.body;
+    try {
+      result = await authSchema9.validateAsync(formData);
+
+      // Check if the tenant already exists
+      const doesExist = await tenantModel.findOne({
+        org_name: result.org_name,
+      });
+      if (doesExist) {
+        res.send({ response: "error", error: ["Tenant Already Exists"] });
+        return;
+      }
+
+      // Create and save the new tenant
+      const tenant = new tenantModel(result);
+      const savedTenant = await tenant.save();
+
       res.send({ response: "success" });
     } catch (error) {
       if (error) {

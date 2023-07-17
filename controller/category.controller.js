@@ -6,11 +6,19 @@ module.exports = {
   // Add a new category
   addCategory: async (req, res, next) => {
     const formData = req.body;
+    formData.org_id = req.payload.org_id;
     try {
       result = await authSchema3.validateAsync(formData);
 
+      if (req.payload.role.includes("member")) {
+        return res.send({ response: "error", error: "You are not allowed to add category" });
+      }
+
       // Check if the category already exists
-      const doesExist = await categoryModel.findOne({ name: result.name });
+      const doesExist = await categoryModel.findOne({
+        name: result.name,
+        org_id: req.payload.org_id,
+      });
       if (doesExist) {
         res.send({ response: "error", error: ["Category Already Exists"] });
         return;
@@ -31,7 +39,7 @@ module.exports = {
   // Get all categories
   category: async (req, res, next) => {
     try {
-      const categories = await categoryModel.find();
+      const categories = await categoryModel.find({org_id: (req.query.org || req.payload.org_id) });
       const formattedData = {};
 
       // Format the categories data
@@ -52,9 +60,13 @@ module.exports = {
   changeCategoryStatus: async (req, res, next) => {
     const formData = req.body;
     try {
+      if (req.payload.role.includes("member")) {
+        return res.send({ response: "error", error: "You are not allowed to add category" });
+      }
+      
       result = await authSchema3.validateAsync(formData);
 
-      const filter = { name: result.name }; // Query criteria to find the document
+      const filter = { name: result.name, org_id: req.payload.org_id }; // Query criteria to find the document
       const update = { status: result.status }; // New value for the status field
 
       // Find and update the category

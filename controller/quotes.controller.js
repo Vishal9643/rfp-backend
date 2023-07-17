@@ -8,9 +8,8 @@ module.exports = {
   // View quotes for a specific RFP
   viewQuotes: async (req, res, next) => {
     const id = req.params.id;
-    console.log(id);
     try {
-      const rfp = await quotesModel.find({ id: `${id}` });
+      const rfp = await quotesModel.find({ id: `${id}`, org_id : req.payload.org_id });
       res.send({ response: "success", quotes: rfp });
     } catch (error) {
       next(error);
@@ -43,7 +42,7 @@ module.exports = {
       result.mobile = mobile;
 
       // Check if the RFP exists
-      const doesExist = await rfpModel.findOne({ id: id });
+      const doesExist = await rfpModel.findOne({ id: id, org_id : req.payload.org_id });
       if (!doesExist) {
         res.send({ response: "error", error: ["RFP Does Not Exist"] });
         return;

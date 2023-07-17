@@ -40,6 +40,10 @@ const rfpSchema = Schema({
     type: String,
     default: "Open",
   },
+  org_id: {
+    type: String,
+    required: true,
+  },
   id: {
     type: Number,
     default: 1, // Start from 1

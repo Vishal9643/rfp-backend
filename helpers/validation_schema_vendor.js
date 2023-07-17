@@ -14,6 +14,8 @@ const authSchema = joi
     gst_no: joi.string(),
     mobile: joi.string(),
     status: joi.string(),
+    org_name: joi.string(),
+    role: joi.string(),
   })
   .unknown();
 

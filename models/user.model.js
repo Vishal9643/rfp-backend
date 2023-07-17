@@ -47,6 +47,13 @@ const usersSchema = Schema({
     type: String,
     default: "Pending",
   },
+  org_id: {
+    type: String,
+    required: true,
+  },
+  role: {
+    type: String,
+  },
   user_id: {
     type: Number,
     default: 1, // Start from 1

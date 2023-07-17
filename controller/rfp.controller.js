@@ -9,28 +9,31 @@ module.exports = {
   // Create a new RFP
   createRFP: async (req, res, next) => {
     const formData = req.body;
-    console.log(formData);
     try {
+      formData.org_id = req.payload.org_id;
       result = await authSchema5.validateAsync(formData);
       const authHeader = req.headers["authorization"];
       const token = authHeader && authHeader.split(" ")[1]; // Extract the token from the Authorization header
       const decoded = jwt.verify(token, process.env.ADMIN_ACCESS_TOKEN_SECRET); // Decode the token
       const admin_id = decoded.user_id; // Extract the user_id from the decoded token
-      console.log(result.vendors);
 
       // Check if the RFP already exists
-      const doesExist = await rfpModel.findOne({ rfp_no: result.rfp_no });
+      const doesExist = await rfpModel.findOne({
+        rfp_no: result.rfp_no,
+        org_id: req.payload.org_id,
+      });
       if (doesExist) {
         res.send({ response: "error", error: ["RFP Already Exists"] });
         return;
       }
-
       // Create and save the new RFP
       const rfp = new rfpModel(result);
       const savedRfp = await rfp.save();
 
-      const vendorExist = await usersModel.findOne({ user_id: result.vendors });
-      console.log(vendorExist);
+      const vendorExist = await usersModel.findOne({
+        user_id: result.vendors,
+        org_id: req.payload.org_id,
+      });
       if (vendorExist) {
         var email = vendorExist.email;
         const emailMessage = {
@@ -104,7 +107,7 @@ module.exports = {
   // View all RFPs
   viewRFP: async (req, res, next) => {
     try {
-      const rfp = await rfpModel.find();
+      const rfp = await rfpModel.find({ org_id: req.payload.org_id });
       res.send({ response: "success", rfps: rfp });
     } catch (error) {
       next(error);
@@ -114,10 +117,13 @@ module.exports = {
   // Close an RFP
   closeRFP: async (req, res, next) => {
     const id = req.params.id;
+    if (req.payload.role.includes("member")) {
+      return res.send({ response: "error", error: "You are not allowed to add category" });
+    }
 
     // Find and update the RFP status to "closed"
     const doesExist = await rfpModel.findOneAndUpdate(
-      { id: id },
+      { id: id, org_id: req.payload.org_id },
       { status: "closed" }
     );
 
@@ -134,7 +140,10 @@ module.exports = {
     const id = req.params.id;
 
     // Find RFPs associated with the vendor
-    const doesExist = await rfpModel.find({ vendors: id });
+    const doesExist = await rfpModel.find({
+      vendors: id,
+      org_id: req.payload.org_id,
+    });
 
     if (!doesExist) {
       res.send({ response: "error", error: ["No RFPs found"] });
