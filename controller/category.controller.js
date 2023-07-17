@@ -61,7 +61,8 @@ module.exports = {
     const formData = req.body;
     try {
       if (req.payload.role.includes("member")) {
-        return res.send({ response: "error", error: "You are not allowed to add category" });
+        res.send({ response: "error", error: "You are not allowed to change Category Status" });
+        return 
       }
       
       result = await authSchema3.validateAsync(formData);

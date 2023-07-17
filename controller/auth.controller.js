@@ -160,6 +160,7 @@ module.exports = {
         name: `${doesExist.firstname} ${doesExist.lastname}`,
         email: doesExist.email,
         org_name: doesExist.org_name,
+        role: doesExist.role,
       });
     } catch (error) {
       next(error);
