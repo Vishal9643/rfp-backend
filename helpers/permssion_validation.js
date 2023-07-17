@@ -2,12 +2,11 @@ const joi = require("@hapi/joi");
 
 const authSchema = joi
   .object({
-    item_price: joi.required(),
-    total_cost: joi.required(),
+    id: joi.string().lowercase().required(),
     org_name: joi.string(),
   })
   .unknown();
 
 module.exports = {
-  authSchema6: authSchema,
+  authSchema4: authSchema,
 };

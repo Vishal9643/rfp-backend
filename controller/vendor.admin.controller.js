@@ -8,7 +8,6 @@ module.exports = {
   // Remove a vendor
   removeVendor: async (req, res, next) => {
     const formData = req.body;
-    console.log(formData.email);
     try {
       const result = await authSchema6.validateAsync(formData);
 
@@ -30,7 +29,6 @@ module.exports = {
   // Approve a vendor
   vendorApprove: async (req, res, next) => {
     const formData = req.body;
-    console.log(formData.email);
     try {
       result = await authSchema4.validateAsync(formData);
 
@@ -63,7 +61,10 @@ module.exports = {
   // Get the list of vendors
   vendorList: async (req, res, next) => {
     try {
-      const result = await usersModel.find({ type: "vendor" });
+      const result = await usersModel.find({
+        type: "vendor",
+        org_id: req.payload.org_id,
+      });
 
       // Format the result with necessary fields
       const resultWithNames = result.map((doc) => {
